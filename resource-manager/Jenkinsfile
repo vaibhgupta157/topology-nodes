@@ -1,0 +1,7 @@
+@Library("pipeline-lib@de0693c545ef8b6fb2e997975daf529264c2c689") _
+
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5'))])
+
+buildPackage {
+    luxVersion = '2.3.2'
+}

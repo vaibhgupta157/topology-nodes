@@ -1,0 +1,97 @@
+module topology-nodes {
+
+  namespace "http://example.com/topology-nodes";
+  prefix topology-nodes;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  import tailf-kicker {
+    prefix kicker;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2016-01-01 {
+    description
+      "Initial revision.";
+  }
+
+  identity device-onboarding {
+    base ncs:plan-state;
+  }
+
+  identity fetch-sshkey {
+    base ncs:plan-state;
+  }
+
+  identity sync-from {
+    base ncs:plan-state;
+  }
+
+  identity day0-config {
+    base ncs:plan-state;
+  }
+
+  list topology-nodes {
+    description "This is an RFS skeleton service";
+
+    uses ncs:plan-data;
+
+    uses ncs:service-data;
+    ncs:servicepoint topology-nodes-servicepoint;
+
+    key name;
+    leaf name {
+      tailf:info "Unique service id";
+      tailf:cli-allow-range;
+      type string;
+    }
+
+
+
+
+    // replace with your own stuff here
+    leaf mgmt_address {
+      type inet:ipv4-address;
+    }
+
+    leaf port {
+      type uint32;
+    }
+
+    leaf authgroup {
+      type leafref {
+          path "/ncs:devices/ncs:authgroups/ncs:group/ncs:name";
+      }
+    }
+
+    list uplinks {
+
+      key local-intf;
+
+      leaf local-intf {
+        type string;
+      }
+
+      leaf remote-node {
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      leaf remote-intf {
+        type string;
+      }
+    }
+
+  }
+}

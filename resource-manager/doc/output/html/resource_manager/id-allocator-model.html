@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      
+      <title>Id allocator model -  - NSO Resource Manager 3.5.2</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.78.1" />
+      <link rel="home" href="index.html" title="NSO Resource Manager 3.5.2" />
+      <link rel="up" href="dg.resource_manager.data_models.html" title="The NSO Resource Manager Data Models" />
+      <link rel="prev" href="resource-allocator-model.html" title="Resource allocator model" />
+      <link rel="next" href="ipaddress-allocator-model.html" title="IP address allocator model" />
+      <meta xmlns="" name="Section-title" content="Id allocator model" /><script xmlns="" type="text/javascript">
+      //The id for tree cookie
+      var treeCookieId = "treeview-794";
+      var language = "en";
+      var w = new Object();
+      //Localization
+      txt_filesfound = 'Results';
+      txt_enter_at_least_1_char = "You must enter at least one character.";
+      txt_browser_not_supported = "JavaScript is disabled on your browser. Please enable JavaScript to enjoy all the features of this site.";
+      txt_please_wait = "Please wait. Search in progress...";
+      txt_results_for = "Results for: ";
+    </script><link xmlns="" rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+      <link xmlns="" rel="stylesheet" type="text/css" href="common/css/positioning.css" />
+      <link xmlns="" rel="stylesheet" type="text/css" href="common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css" />
+      <link xmlns="" rel="stylesheet" type="text/css" href="common/jquery/treeview/jquery.treeview.css" /><style xmlns="" type="text/css">
+      
+      #noscript{
+      font-weight:bold;
+      background-color: #55AA55;
+      font-weight: bold;
+      height: 25spx;
+      z-index: 3000;
+      top:0px;
+      width:100%;
+      position: relative;
+      border-bottom: solid 5px black;
+      text-align:center;
+      color: white;
+      }
+      
+      input {
+      margin-bottom: 5px;
+      margin-top: 2px;
+      }
+      .folder {
+      display: block;
+      height: 22px;
+      padding-left: 20px;
+      background: transparent url(common/jquery/treeview/images/folder.gif) 0 0px no-repeat;
+      }
+      span.contentsTab {
+      padding-left: 20px;
+      background: url(common/images/toc-icon.png) no-repeat 0 center;
+      }
+      span.searchTab {
+      padding-left: 20px;
+      background: url(common/images/search-icon.png) no-repeat 0 center;
+      }
+      
+      /* Overide jquery treeview's defaults for ul. */
+      .treeview ul {
+      background-color: transparent;
+      margin-top: 4px;
+      }		
+      #webhelp-currentid {
+      /* background-color: #D8D8D8 !important; */
+      background-color: #D8D8D8;
+      }
+      .treeview .hover { color: black; }
+      .filetree li span a { text-decoration: none; font-size: 12px; color: #517291; }
+      
+      /* Override jquery-ui's default css customizations. These are supposed to take precedence over those.*/
+      .ui-widget-content {
+      border: 0px; 
+      background: none; 
+      color: none;     
+      }
+      .ui-widget-header {
+      color: #e9e8e9;
+      border-left: 1px solid #e5e5e5;
+      border-right: 1px solid #e5e5e5;
+      border-bottom: 1px solid #bbc4c5;
+      border-top: 4px solid #e5e5e5;
+      border: medium none;
+      background: #F4F4F4; /* old browsers */
+      background: -moz-linear-gradient(top, #F4F4F4 0%, #E6E4E5 100%); /* firefox */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F4F4F4), color-stop(100%,#E6E4E5)); /* webkit */    
+      font-weight: none;
+      }
+      .ui-widget-header a { color: none; }
+      .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { 
+      border: none; background: none; font-weight: none; color: none; }
+      .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: black; text-decoration: none; }
+      .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: none; background: none; font-weight: none; color: none; }
+      
+      .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: none; background: none; font-weight: none; color: none; }
+      .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { 
+      color: black; text-decoration: none; 	
+      background: #C6C6C6; /* old browsers */
+      background: -moz-linear-gradient(top, #C6C6C6 0%, #D8D8D8 100%); /* firefox */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#C6C6C6), color-stop(100%,#D8D8D8)); /* webkit */
+      -webkit-border-radius:15px; -moz-border-radius:10px;
+      border: 1px solid #f1f1f1;
+      }    
+      .ui-corner-all { border-radius: 0 0 0 0; }
+      
+      .ui-tabs { padding: .2em;}
+      .ui-tabs .ui-tabs-nav li { top: 0px; margin: -2px 0 1px; text-transform: uppercase; font-size: 10.5px;}
+      .ui-tabs .ui-tabs-nav li a { padding: .25em 2em .25em 1em; margin: .5em; text-shadow: 0 1px 0 rgba(255,255,255,.5); }
+      /**
+      *	Basic Layout Theme
+      * 
+      *	This theme uses the default layout class-names for all classes
+      *	Add any 'custom class-names', from options: paneClass, resizerClass, togglerClass
+      */
+      
+      .ui-layout-pane { /* all 'panes' */ 
+      background: #FFF; 
+      border: 1px solid #BBB; 
+      padding: 05x; 
+      overflow: auto;
+      } 
+      
+      .ui-layout-resizer { /* all 'resizer-bars' */ 
+      background: #DDD; 
+      top:100px
+      } 
+      
+      .ui-layout-toggler { /* all 'toggler-buttons' */ 
+      background: #AAA; 
+      } 
+      
+    </style>
+      <!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="../common/css/ie.css"/>
+	<![endif]--><script xmlns="" type="text/javascript" src="common/browserDetect.js">
+         <!----></script><script xmlns="" type="text/javascript" src="common/jquery/jquery-1.7.2.min.js">
+         <!----></script><script xmlns="" type="text/javascript" src="common/jquery/jquery.ui.all.js">
+         <!----></script><script xmlns="" type="text/javascript" src="common/jquery/jquery.cookie.js">
+         <!----></script><script xmlns="" type="text/javascript" src="common/jquery/treeview/jquery.treeview.min.js">
+         <!----></script><script xmlns="" type="text/javascript" src="common/jquery/layout/jquery.layout.js">
+         <!----></script><style type="text/css">
+      
+      #header {
+      /* background: url("../images/header-bg.png") scroll top left repeat-x #4d8c83; */
+      background: transparent;
+      }
+      #leftnavigation {
+      /* background-color: #ededed!important; */
+      background-color: transparent;
+      }
+      #navheader {
+      visibility: hidden;
+      }
+      #webhelp-currentid {
+      /* background-color: #D8D8D8 !important; */
+      background-color: #FFFFFF; /*but must be changed in main.js as well*/
+      }
+      .filetree span.file {
+      /* background: url(images/file.gif) 0 0 no-repeat; */
+      background: initial;
+      }
+      .filetree span.folder, .filetree span.file {
+      padding: 1px 0 1px 7px;
+      display: block;
+      }
+
+      /* borrowed from cisco: clientlib.css */
+      .footer {
+      margin: 28px 30px 0 15px;
+      font-size: 80%;
+      line-height: 120%;
+      border-top: 1px solid #ccc;
+      padding-top: 7px;
+      color: #999;
+      }
+      .footer #footer-legal{display:inline;padding-bottom:18px}
+      #framework-footer{margin:0;padding:0 0 15px 0;min-width:900px;width:100%}
+      .footer a,.footer a:visited{color:#999}
+
+      /* from ccimr.css */
+      a:active  { color: #3366CC}
+      a:hover   { color: #3366CC}
+      a:link    { color: #3366CC}
+      a:visited { color: #3366CC}
+
+      #header img {
+      float: left;
+      margin-left: 20px;
+      margin-top: 0px;
+      }
+
+      #header h1 {
+      color: #336666;
+      margin-top: 4px;
+      }
+      #content h1, #content h2 {
+      color: #336666;
+      }
+      .title {
+      color: #336666;
+      }
+      p, pre {
+      margin-left: 0.1in;
+      }
+      p, ul, ol, li {
+        font-size: 95%;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-top: 1px;
+      }
+      body {
+        font: 80.5% Arial, Helvetica, sans-serif;
+      }
+      ol {
+      display: block;
+      list-style-type: decimal;
+      -webkit-margin-before: 1em;
+      -webkit-margin-after: 1em;
+      -webkit-margin-start: 0px;
+      -webkit-margin-end: 0px;
+      -webkit-padding-start: 40px;
+      border: 1;
+      }
+    </style></head>
+   <body>
+      <noscript>
+         <div id="noscript">JavaScript is disabled on your browser. Please enable JavaScript to enjoy all the features of this site.</div>
+      </noscript>
+      <div id="header"><a href="index.html"><img style="margin-right: 2px; width: 110; height: 73; padding-right: 25px; padding-top: 8px" align="right" src="common/images/logo.gif" alt="Cisco Systems, Inc." /></a><h1>NSO Resource Manager 3.5.2<br />The NSO Resource Manager Data Models
+         </h1>
+         <div id="navheader">
+            <!---->
+            <table class="navLinks">
+               <tr>
+                  <td><a id="showHideButton" href="#" onclick="myLayout.toggle('west')" class="pointLeft" tabindex="5" title="Hide TOC tree">Sidebar
+                                                    </a></td>
+                  <td><a accesskey="p" class="navLinkPrevious" tabindex="5" href="resource-allocator-model.html">Prev</a>
+                                                             |
+                                                             <a accesskey="u" class="navLinkUp" tabindex="5" href="dg.resource_manager.data_models.html">Up</a>
+                                                         |
+                                                         <a accesskey="n" class="navLinkNext" tabindex="5" href="ipaddress-allocator-model.html">Next</a></td>
+               </tr>
+            </table>
+         </div>
+      </div>
+      <div id="content">
+         <div class="sect1">
+            <div xmlns="" class="titlepage">
+               <div>
+                  <div>
+                     <h2 xmlns="http://www.w3.org/1999/xhtml" class="title" style="clear: both"><a id="id-allocator-model"></a>Id allocator model
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p>
+                     
+            </p>
+            <div class="example"><a id="IDAYANG"></a><p class="title"><strong>Example 2. Id allocator YANG Model</strong></p>
+               <div class="example-contents"><pre class="programlisting"><strong xmlns="" class="hl-keyword">module</strong> id-allocator {
+
+  <strong xmlns="" class="hl-keyword">namespace</strong> <strong xmlns="" class="hl-string"><em style="color:red">"http://tail-f.com/pkg/id-allocator"</em></strong>;
+  <strong xmlns="" class="hl-keyword">prefix</strong> idalloc;
+
+  <strong xmlns="" class="hl-keyword">import</strong> tailf-common {
+    <strong xmlns="" class="hl-keyword">prefix</strong> tailf;
+  }
+
+  <strong xmlns="" class="hl-keyword">import</strong> resource-allocator {
+    <strong xmlns="" class="hl-keyword">prefix</strong> ralloc;
+  }
+
+  <strong xmlns="" class="hl-keyword">include</strong> id-allocator-alarms {
+    <strong xmlns="" class="hl-keyword">revision</strong>-date <strong xmlns="" class="hl-string"><em style="color:red">"2017-02-09"</em></strong>;
+  }
+
+  <strong xmlns="" class="hl-keyword">organization</strong> <strong xmlns="" class="hl-string"><em style="color:red">"Tail-f Systems"</em></strong>;
+  <strong xmlns="" class="hl-keyword">description</strong>
+    <strong xmlns="" class="hl-string"><em style="color:red">"This module contains a description of an id allocator for defining pools
+</em></strong>     of id:s. This can for instance be used <strong xmlns="" class="hl-keyword">when</strong> allocating VLAN ids.
+     This <strong xmlns="" class="hl-keyword">module</strong> contains configuration schema of the id allocator. For the
+     operational schema, please see the id-allocator-oper <strong xmlns="" class="hl-keyword">module</strong>.<strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>
+  <strong xmlns="" class="hl-keyword">revision</strong> <span xmlns="" class="hl-number">2017</span>-<span xmlns="" class="hl-number">08</span>-<span xmlns="" class="hl-number">14</span> {
+    <strong xmlns="" class="hl-keyword">description</strong>
+      <strong xmlns="" class="hl-string"><em style="color:red">"2.2
+</em></strong>      Enhancements:
+       Removed <strong xmlns="" class="hl-string"><em style="color:red">'disable'</em></strong>, add <strong xmlns="" class="hl-string"><em style="color:red">'enable'</em></strong> for alarms.
+       This means that if you want alarms you need to enable this explicitly
+       now.
+      <strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>  }
+
+  <strong xmlns="" class="hl-keyword">revision</strong> <span xmlns="" class="hl-number">2017</span>-<span xmlns="" class="hl-number">02</span>-<span xmlns="" class="hl-number">09</span> {
+    <strong xmlns="" class="hl-keyword">description</strong>
+      <strong xmlns="" class="hl-string"><em style="color:red">"2.1
+</em></strong>      Enhancements:
+       Added support for alarms
+      <strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>  }
+
+  <strong xmlns="" class="hl-keyword">revision</strong> <span xmlns="" class="hl-number">2015</span>-<span xmlns="" class="hl-number">12</span>-<span xmlns="" class="hl-number">28</span> {
+     <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"2nd revision. Added support for allocation methods."</em></strong>;
+  }
+
+  <strong xmlns="" class="hl-keyword">revision</strong> <span xmlns="" class="hl-number">2015</span>-<span xmlns="" class="hl-number">10</span>-<span xmlns="" class="hl-number">20</span> {
+     <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"Initial revision."</em></strong>;
+  }
+
+  <strong xmlns="" class="hl-keyword">grouping</strong> <strong xmlns="" class="hl-keyword">range</strong>-<strong xmlns="" class="hl-keyword">grouping</strong> {
+    <strong xmlns="" class="hl-keyword">leaf</strong> start {
+      <strong xmlns="" class="hl-keyword">type</strong> uint32;
+      <strong xmlns="" class="hl-keyword">mandatory</strong> true;
+    }
+    <strong xmlns="" class="hl-keyword">leaf</strong> end {
+      <strong xmlns="" class="hl-keyword">type</strong> uint32;
+      <strong xmlns="" class="hl-keyword">mandatory</strong> true;
+      <strong xmlns="" class="hl-keyword">must</strong> <strong xmlns="" class="hl-string"><em style="color:red">". &gt;= ../start"</em></strong> {
+        error-message <strong xmlns="" class="hl-string"><em style="color:red">"range end must be greater or equal to range start"</em></strong>;
+        tailf:dependency <strong xmlns="" class="hl-string"><em style="color:red">"../start"</em></strong>;
+      }
+    }
+  }
+
+  <em xmlns="" class="hl-comment" style="color: silver">// This is the interface</em>
+  <strong xmlns="" class="hl-keyword">augment</strong> <strong xmlns="" class="hl-string"><em style="color:red">"/ralloc:resource-pools"</em></strong> {
+    <strong xmlns="" class="hl-keyword">list</strong> id-pool {
+      <strong xmlns="" class="hl-keyword">key</strong> <strong xmlns="" class="hl-string"><em style="color:red">"name"</em></strong>;
+      <strong xmlns="" class="hl-keyword">container</strong> <strong xmlns="" class="hl-keyword">range</strong> {
+        <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"The range the resource-pool should contain"</em></strong>;
+        <strong xmlns="" class="hl-keyword">uses</strong> <strong xmlns="" class="hl-keyword">range</strong>-<strong xmlns="" class="hl-keyword">grouping</strong>;
+      }
+      <strong xmlns="" class="hl-keyword">list</strong> exclude {
+        <strong xmlns="" class="hl-keyword">key</strong> <strong xmlns="" class="hl-string"><em style="color:red">"start end"</em></strong>;
+        <strong xmlns="" class="hl-keyword">leaf</strong> stop-allocation {
+          <strong xmlns="" class="hl-keyword">type</strong> boolean;
+          <strong xmlns="" class="hl-keyword">default</strong> <strong xmlns="" class="hl-string"><em style="color:red">"false"</em></strong>;
+        }
+        <strong xmlns="" class="hl-keyword">uses</strong> <strong xmlns="" class="hl-keyword">range</strong>-<strong xmlns="" class="hl-keyword">grouping</strong>;
+        tailf:cli-suppress-mode;
+      }
+      <strong xmlns="" class="hl-keyword">uses</strong> ralloc:resource-pool-<strong xmlns="" class="hl-keyword">grouping</strong> {
+        <strong xmlns="" class="hl-keyword">augment</strong> <strong xmlns="" class="hl-string"><em style="color:red">"allocation/response/response-choice/ok"</em></strong> {
+          <strong xmlns="" class="hl-keyword">leaf</strong> id {
+            <strong xmlns="" class="hl-keyword">type</strong> uint32;
+          }
+        }
+      }
+      <strong xmlns="" class="hl-keyword">container</strong> alarms {
+        <strong xmlns="" class="hl-keyword">leaf</strong> enabled {
+          <strong xmlns="" class="hl-keyword">type</strong> empty;
+          <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"Set this leaf to enable alarms"</em></strong>;
+        }
+        <strong xmlns="" class="hl-keyword">leaf</strong> low-threshold-alarm {
+          <strong xmlns="" class="hl-keyword">type</strong> uint8 {
+            <strong xmlns="" class="hl-keyword">range</strong> <strong xmlns="" class="hl-string"><em style="color:red">"0 .. 100"</em></strong>;
+          }
+          <strong xmlns="" class="hl-keyword">default</strong> <span xmlns="" class="hl-number">10</span>;
+          <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"Change the value for when the low threshold alarm is
+</em></strong>                       raised. The <strong xmlns="" class="hl-keyword">value</strong> describes the percentage IDs left in
+                       the pool. The <strong xmlns="" class="hl-keyword">default</strong> is to raise the alarm <strong xmlns="" class="hl-keyword">when</strong> there
+                       are ten (<span xmlns="" class="hl-number">10</span>) percent IDs left in the pool.<strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>                       
+        }
+      }
+      <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"The state of the id-pool."</em></strong>;
+      tailf:info <strong xmlns="" class="hl-string"><em style="color:red">"Id pool"</em></strong>;
+    }
+  }
+
+  <em xmlns="" class="hl-comment" style="color: silver">//augmenting the request/responses form resource-manager</em>
+  <strong xmlns="" class="hl-keyword">augment</strong> <strong xmlns="" class="hl-string"><em style="color:red">"/ralloc:resource-pools/id-pool/allocation/request"</em></strong> {
+    <strong xmlns="" class="hl-keyword">leaf</strong> sync {
+      <strong xmlns="" class="hl-keyword">type</strong> boolean;
+      <strong xmlns="" class="hl-keyword">default</strong> <strong xmlns="" class="hl-string"><em style="color:red">"false"</em></strong>;
+      <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"Synchronize allocation with all other allocation
+</em></strong>                   with same allocation id in other pools<strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>      tailf:info <strong xmlns="" class="hl-string"><em style="color:red">"Synchronize allocation id with other pools"</em></strong>;
+    }
+    <strong xmlns="" class="hl-keyword">leaf</strong> id {
+      <strong xmlns="" class="hl-keyword">type</strong> uint32;
+      <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"The specific id to sync with"</em></strong>;
+      tailf:info <strong xmlns="" class="hl-string"><em style="color:red">"Request a specific id"</em></strong>;
+    }
+    <strong xmlns="" class="hl-keyword">container</strong> method {
+      <strong xmlns="" class="hl-keyword">choice</strong> method {
+        <strong xmlns="" class="hl-keyword">default</strong> firstfree;
+        <strong xmlns="" class="hl-keyword">case</strong> firstfree {
+          <strong xmlns="" class="hl-keyword">leaf</strong> firstfree {
+            <strong xmlns="" class="hl-keyword">type</strong> empty;
+            <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"The default method to allocating a new id
+</em></strong>                          is using the first free method. Using this
+                          allocation method might mean that an id is reused
+                          quickly which might not be what one wants nor is
+                          supported in lower layers.<strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>            tailf:info <strong xmlns="" class="hl-string"><em style="color:red">"Default method used to request a new id."</em></strong>;
+          }
+        }
+        <strong xmlns="" class="hl-keyword">case</strong> roundrobin {
+          <strong xmlns="" class="hl-keyword">leaf</strong> roundrobin {
+            <strong xmlns="" class="hl-keyword">type</strong> empty;
+            <strong xmlns="" class="hl-keyword">description</strong> <strong xmlns="" class="hl-string"><em style="color:red">"Pick the next available id using a round
+</em></strong>                           robin approach. Earlier used id:s will not be
+                           reused until the <strong xmlns="" class="hl-keyword">range</strong> is exhausted and allocation
+                           restarts from the start of the <strong xmlns="" class="hl-keyword">range</strong> again.
+                           
+                         Note that sync will override round robin.<strong xmlns="" class="hl-string"><em style="color:red">";
+</em></strong>            tailf:info <strong xmlns="" class="hl-string"><em style="color:red">"Round robin method used to request a new id."</em></strong>;
+          }
+        }
+      }
+    }
+  }
+}</pre></div>
+            </div>
+            <p><br class="example-break" />
+                   
+            </p>
+         </div><script type="text/javascript" src="common/main.js">
+            <!----></script><script type="text/javascript" src="common/splitterInit.js">
+            <!----></script><div class="footer" id="footer-legal">
+            <div class="footer-legal framework-footer-cq">
+               <div id="framework-footer">
+                  <div id="footer-legal"><a href="http://www.cisco.com/web/siteassets/legal/terms_condition.html">Terms &amp; Conditions</a> |
+                                 <a href="http://www.cisco.com/web/siteassets/legal/privacy.html">Privacy Statement</a> |
+                                 <a href="http://www.cisco.com/web/siteassets/legal/privacy.html#cookies">Cookie Policy</a> |
+                                 <a href="http://www.cisco.com/web/siteassets/legal/trademark.html">Trademarks</a></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="sidebar">
+         <div id="leftnavigation" style="padding-top:3px;">
+            <div id="tabs">
+               <ul style="visibility: hidden;"></ul>
+               <div id="treeDiv"><img src="common/images/loading.gif" alt="loading table of contents..." id="tocLoading" style="display:block;" /><div id="ulTreeDiv" style="display:none">
+                     <ul id="tree" class="filetree">
+                        <li><span class="file"><a href="dg.resource_manager.intro.html" tabindex="1">NSO Resource Manager Guide</a></span><ul>
+                              <li><span class="file"><a href="ch01s01.html" tabindex="1">Introduction</a></span></li>
+                              <li><span class="file"><a href="ch01s02.html" tabindex="1">Background</a></span></li>
+                              <li><span class="file"><a href="ch01s03.html" tabindex="1">Overview</a></span></li>
+                              <li><span class="file"><a href="ch01s04.html" tabindex="1">Installation</a></span></li>
+                              <li><span class="file"><a href="ch01s05.html" tabindex="1">Resource Allocator Data Model</a></span></li>
+                              <li><span class="file"><a href="ch01s06.html" tabindex="1">HA Considerations</a></span></li>
+                           </ul>
+                        </li>
+                        <li><span class="file"><a href="dg.resource_manager.idallocator.html" tabindex="1">NSO ID Allocator Deployment Guide</a></span><ul>
+                              <li><span class="file"><a href="ch02s01.html" tabindex="1">Introduction</a></span></li>
+                              <li><span class="file"><a href="ch02s02.html" tabindex="1">Overview</a></span></li>
+                              <li><span class="file"><a href="ch02s03.html" tabindex="1">Examples</a></span><ul>
+                                    <li><span class="file"><a href="ch02s03s01.html" tabindex="1">Create an ID pool</a></span></li>
+                                    <li><span class="file"><a href="ch02s03s02.html" tabindex="1">Create an allocation request</a></span></li>
+                                    <li><span class="file"><a href="ch02s03s03.html" tabindex="1">Create a synchronized allocation request</a></span></li>
+                                    <li><span class="file"><a href="ch02s03s04.html" tabindex="1">Request an id using round robin method</a></span></li>
+                                 </ul>
+                              </li>
+                              <li><span class="file"><a href="ch02s04.html" tabindex="1">Security</a></span></li>
+                              <li><span class="file"><a href="ch02s05.html" tabindex="1">Alarms</a></span><ul>
+                                    <li><span class="file"><a href="ch02s05s01.html" tabindex="1">Empty alarm</a></span></li>
+                                    <li><span class="file"><a href="ch02s05s02.html" tabindex="1">Low threshold reached alarm</a></span></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li>
+                        <li><span class="file"><a href="dg.resource_manager.ipaddressallocator.html" tabindex="1">NSO IP Address Allocator Deployment Guide</a></span><ul>
+                              <li><span class="file"><a href="ch03s01.html" tabindex="1">Introduction</a></span></li>
+                              <li><span class="file"><a href="ch03s02.html" tabindex="1">Overview</a></span></li>
+                              <li><span class="file"><a href="ch03s03.html" tabindex="1">Examples</a></span><ul>
+                                    <li><span class="file"><a href="ch03s03s01.html" tabindex="1">Create an IP pool</a></span></li>
+                                    <li><span class="file"><a href="ch03s03s02.html" tabindex="1">Create an allocation request for a subnet</a></span></li>
+                                    <li><span class="file"><a href="ch03s03s03.html" tabindex="1">Create a static allocation request for a subnet</a></span></li>
+                                    <li><span class="file"><a href="ch03s03s04.html" tabindex="1">Read the response to an allocation request</a></span></li>
+                                    <li><span class="file"><a href="ch03s03s05.html" tabindex="1">Automatic redeployment of service</a></span></li>
+                                 </ul>
+                              </li>
+                              <li><span class="file"><a href="ch03s04.html" tabindex="1">Security</a></span></li>
+                              <li><span class="file"><a href="ch03s05.html" tabindex="1">Alarms</a></span><ul>
+                                    <li><span class="file"><a href="ch03s05s01.html" tabindex="1">Empty alarm</a></span></li>
+                                    <li><span class="file"><a href="ch03s05s02.html" tabindex="1">Low threshold reached alarm</a></span></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li>
+                        <li><span class="file"><a href="dg.resource_manager.data_models.html" tabindex="1">The NSO Resource Manager Data Models</a></span><ul>
+                              <li><span class="file"><a href="resource-allocator-model.html" tabindex="1">Resource allocator model</a></span></li>
+                              <li id="webhelp-currentid"><span class="file"><a href="id-allocator-model.html" tabindex="1">Id allocator model</a></span></li>
+                              <li><span class="file"><a href="ipaddress-allocator-model.html" tabindex="1">IP address allocator model</a></span></li>
+                           </ul>
+                        </li>
+                        <li><span class="file"><a href="dg.resource_manager.references.html" tabindex="1">Resources</a></span><ul>
+                              <li><span class="file"><a href="ch05s01.html" tabindex="1">References for further reading</a></span></li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

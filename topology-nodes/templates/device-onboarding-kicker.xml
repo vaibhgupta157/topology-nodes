@@ -1,0 +1,11 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+    <kickers xmlns="http://tail-f.com/ns/kicker">
+        <data-kicker>
+            <id>Kicker-Onboard-{/name}</id>
+            <monitor>/ncs:devices/ncs:device</monitor>
+            <trigger-expr>/ncs:devices/ncs:device[name='{/name}']</trigger-expr>
+            <kick-node xmlns:example="http://cisco.com/ns/nso/cfp/cisco-etsi-nfvo-examples">/topology-nodes:topology-nodes[name='{/name}']</kick-node>
+            <action-name>reactive-re-deploy</action-name>
+        </data-kicker>
+    </kickers>
+</config>

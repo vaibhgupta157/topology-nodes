@@ -1,0 +1,17 @@
+module cumulus-nclu {
+  namespace "http://example.com/cumulus-nclu";
+  prefix cumulus;
+
+  revision 2019-11-11 {
+    description
+      "Initial revision";
+  }
+
+
+  container commands {
+    leaf-list cmd {
+        ordered-by user;
+        type string;
+    }
+  }
+}

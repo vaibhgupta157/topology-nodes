@@ -1,0 +1,28 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <!--
+          Select the devices from some data structure in the service
+          model. In this skeleton the devices are specified in a leaf-list.
+          Select all devices in that leaf-list:
+      -->
+      <name>{/name}</name>
+      <config>
+        <!--
+            Add device-specific parameters here.
+            In this skeleton the, java code sets a variable DUMMY, use it
+            to set something on the device e.g.:
+            <ip-address-on-device>{$DUMMY}</ip-address-on-device>
+        -->
+                   <commands xmlns="http://example.com/cumulus-nclu">
+                     <cmd>net add loopback lo ip address {$loopback_ip}/32</cmd>
+                     <cmd>net add ospf router-id {$loopback_ip}</cmd>
+                     <cmd>net add loopback lo ospf area 0</cmd>
+                     <cmd>net add ospf passive-interface lo</cmd>
+                     <cmd>net add bgp autonomous-system {$ASN}</cmd>
+                     <cmd>net add bgp router-id {$loopback_ip}</cmd>
+                   </commands>        
+      </config>
+    </device>
+  </devices>
+</config-template>
